@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester(){
+        var canWin = function(s) {
+            for(var i = 1;i<s.length;i++){
+                if(s[i] === '+' && s[i-1] === '+'){
+                    s[i] = '-';
+                    s[i-1] = '-';
+                    var win = canWin(s);
+                    s[i] = '+';
+                    s[i-1] = '+';
+                    if(!win){//alternate at every recursion. Your loss is my win
+                        return true;
+                    }
+                }
+            }
+            //This means there's no moves left
+            return false;
+        };
+        /*Game theory backtrack. Generate all possible states,
+        * My win is your loss.
+         * All leetcode soultions have !canWin. It's a technique in an alternating state game
+         * memoize winning boards as well.
+         *
+         * */
+
+        console.log(canWin(['+','+','+','-','-','+','+','+','-','-']));
+    }
+
+
+</script>
+</body>
+</html>

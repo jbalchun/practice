@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester() {
+        /*
+        *
+        *
+        * word : [indices] ?
+        * keep indices sorted and binary search for the closest one.
+        *
+        * basically, walk through, push index to word map location, call sort();
+        * start w/ linear search, if TLE go to binary search
+        *
+        * What if i made a table.. precalculated the answer for each and chucked it in the table.
+        *
+        * Above structure is step 1. then make a table of all unique words x all unique words and fill in each index
+        * then u get 1 access.
+        *
+        * NEED CLOSEST PAIR OF 2 SORTED ARRAYS. Solve and reconvene.
+        *
+        * I think my solution is better than the AC ones. Massive upfront investment and then O(1) access as opposed to less
+        * upfront, then O(n) access.
+        *
+        *
+        * */
+
+        //if using prototype/new, set this.
+         var WordDistance = function(words) {
+            this.words = words;
+             //build helper map
+             this.map = {};
+             for(var i = 0;i<words.length;i++){
+                 if(!this.map[words[i]]){
+                     this.map[words[i]] = [i];
+                 }else{
+                     this.map[words[i]].push(i);
+                     this.map[words[i]].sort((a,b)=>a-b);
+                 }
+             }
+             this.grid = {};
+
+             for(var j = 0; j<Object.keys(this.map).length;j++){
+                 var key1 = Object.keys(this.map)[j];
+                 if(!this.grid[key1]){
+                     this.grid[key1] = {};
+                 }
+                 for(var k = 0; k<Object.keys(this.map).length;k++){
+                     var key2 = Object.keys(this.map)[k];
+                     if(j !== k){
+                         this.grid[key1][key2] = minDist(this.map[key1],this.map[key2]);
+                     }
+                 }
+             }
+
+             function minDist(arr1,arr2){
+                 [1,2,4,5,6]
+                         [3,8,10]
+
+                 var i = 0;
+                 var j = 0;
+                 var min = Infinity;
+                 while(i<arr1.length && j<arr2.length){
+
+                     if(Math.abs(arr1[i]-arr2[j]) < min ){
+                         min = Math.abs(arr1[i]-arr2[j]);
+                     }else if(arr1[i] < arr2[j]){
+                         i++;
+                     }else{
+                         j++
+                     }
+
+                 }
+                 return min;
+             }
+
+             function findDistance(word1,word2,map){
+                 var min = Infinity;
+                 for(var i = 0; i < map[word1].length;i++){
+                     for(var j = 0; j < map[word2].length;j++){
+                         min = Math.min(Math.abs(map[word1][i]-map[word2][j]),min);
+                     }
+                 }
+                 return min;
+             }
+
+        };
+
+        /**
+         * @param {string} word1
+         * @param {string} word2
+         * @return {integer}
+         */
+        WordDistance.prototype.shortest = function(word1, word2) {
+            return this.grid[word1][word2];
+
+        };
+
+        var wd = new WordDistance(["practice", "makes", "perfect", "coding", "makes"])
+
+        console.log(wd.shortest('makes','coding'));
+
+
+
+
+        /*IMO Above is faster and makes more sense bc access is O(1),
+        * but  below is actually AC because leetcode is dumb*/
+
+
+//    var WordDistance = function(words) {
+//        this.words = words;
+//        //build helper map
+//        this.map = {};
+//        for(var i = 0;i<words.length;i++){
+//            if(!this.map[words[i]]){
+//                this.map[words[i]] = [i];
+//            }else{
+//                this.map[words[i]].push(i);
+//                this.map[words[i]].sort((a,b)=>a-b);
+//            }
+//        }
+//    };
+//
+//    /**
+//     * @param {string} word1
+//     * @param {string} word2
+//     * @return {integer}
+//     */
+//    WordDistance.prototype.shortest = function(word1, word2) {
+//        return minDist(this.map[word1],this.map[word2])
+//        function minDist(arr1,arr2){
+//            var i = 0;
+//            var j = 0;
+//            var min = Infinity;
+//            while(i<arr1.length && j<arr2.length){
+//
+//                if(Math.abs(arr1[i]-arr2[j]) < min ){
+//                    min = Math.abs(arr1[i]-arr2[j]);
+//                }else if(arr1[i] < arr2[j]){
+//                    i++;
+//                }else{
+//                    j++
+//                }
+//
+//            }
+//            return min;
+//        }
+//
+//    };
+
+
+
+
+
+
+
+
+    }
+
+
+</script>
+</body>
+</html>

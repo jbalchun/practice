@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+
+    function tester(){
+
+/*
+* -Don't need to store all, just have a global counter
+* -!newLength - !oldLength = where we are starting for that loop (count is probably easier than factorial)
+*
+* //If I equal the global count I break.
+ *
+ * 1234, k = 2
+ * tail = 43
+ *
+ * //Double counting as I run up the chain options,
+ * -Decrement by x at each level, 12 at level 2,
+ * -I make in this order: 123,213,231, that's not the right order
+ * -I'm trying to just make the tail...
+ * -I could change my order so that I make them properly, which would be...
+ * while i < x
+* */
+
+        var permK = function(str,k){
+            var permTail = '';
+            var globalCount = 1;//count permLevel
+            var lastNum = 2;//last perms
+
+            recurse(str);
+
+            var tailLength = permTail.length;
+
+            return str.slice(0,str.length-tailLength) + permTail;
+
+
+            function recurse(strR){
+                //base case
+                if(strR.length == 1){
+                    if(k === 1){
+                        permTail = strR;
+                    }
+                    return [strR];
+                }
+
+                var head = strR.slice(0,1);
+                var permArray = recurse(strR.slice(1));
+
+                if(!permArray){
+                    return false;
+                }
+                var myArray = [];
+                var j = 0;
+                var count = 0;
+                while(j <= permArray[0].length){
+                    for(var i = 0;i<permArray.length;i++){
+                        var curStr = permArray[i];
+                        var curPerm = curStr.slice(0,j)+head+curStr.slice(j);
+                        count++;
+                        if(count === k){//ie when building 123 lastNum = 6, curNum =
+                            permTail = curPerm;
+                            return false;
+                        }
+                        myArray.push(curPerm);
+                    }
+                    j++;
+                }
+                return myArray;
+            };
+        }
+
+        console.log(permK("2",1));
+//        console.log(merge([1,4],[1,5]));
+
+
+    }
+
+
+</script>
+</body>
+</html>

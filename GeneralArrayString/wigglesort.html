@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    /*
+    *[1, 5, 1, 1, 6, 4] -> [1, 4, 1, 5, 1, 6]
+    *
+    *Ideas:
+    * 2 pointers?
+    * Does greedy work? I don't think so.. you could theoretically trap youself.
+    * Wiggle segments? find them and move them around?
+    *
+     *  Something similar to quicksort?
+     *      Grab a random index, move it until it finds it's place, ie
+    *
+     *  Merge sort with a comparator that flips?Seems workable but O(nlogn)
+     *  less information that a straight sort so should be quicker.
+     *
+     *  Cut the list in half and run two wheels? Could that cut ruin it for me? What happens when i get stuck? Greedy.
+     *  Tags don't help.. sort.
+    *
+    *What is the brute force? for each break, grab Smallest one larger, or largest one smaller than me and swap in
+    *
+    * Runtime:
+    * O(n), means: no heaps, trees or binary searches
+    *
+    *   Think: Hashmaps, 2 pointers, DP
+    *
+    *Must be reordered in place, so no helpers.
+    *
+    * Can any list of numbers be wiggle sorted?
+    *
+    * 8,9,10,11,12
+    *
+    *GAVE UP.. apparently greedy works. you can just run through and swap back and forth
+    *DUMB. you just run through and swap. figure it out kid
+    * */
+    function tester(){
+
+        function wigglesort(nums){
+
+            for(var i = 0;i<nums.length;i++){
+                if(i%2 ===1)
+            }
+        }
+
+        console.log();
+
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+
+    function tester(){
+
+
+
+        /**
+         * Definition for a binary tree node.
+         * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+         */
+        /**
+         * @param {TreeNode} root
+         * @return {boolean}
+         */
+        var isBalanced = function(root) {
+            if(!root){
+                return true;
+            }
+            var queue = []
+            var nodeObj = {root:root,count:0};
+            var max = 0;
+            var min = Infinity;
+            queue.push(nodeObj);
+
+            while(queue.length > 0){
+                var curObj = queue.shift();
+
+                //leaf
+                if(!curObj.root.left && !curObj.root.right){
+                    var min = Math.min(min,curObj.count);
+                    var max = Math.max(max,curObj.count);
+                }
+
+                if(curObj.left){
+                    queue.push({root:curObj.root.left,count:curObj.count+1});
+                }
+                if(curObj.right){
+                    queue.push({root:curObj.root.right,count:curObj.count+1});
+                }
+
+
+
+
+            }
+            if(Math.abs(max-min) > 1){
+                return false
+            }
+            return true
+
+        };
+
+        console.log(isBalanced);
+//        console.log(merge([1,4],[1,5]));
+
+
+    }
+
+
+</script>
+</body>
+</html>

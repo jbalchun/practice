@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+
+    function tester(){
+
+
+
+        var findHeight= function(head){
+
+            if(!head){
+                return 0;
+            }
+
+            var left = findHeight(head.left);
+            var right = findHeight(head.right);
+            return 1 + Math.max(left,right);
+
+        };
+
+        var findDiameter= function(head){
+
+            if(!head){
+                return 0;
+            }
+
+            var left = findDiameter(head.left);
+            var right = findDiameter(head.right);
+            var myDiam = 1+ findHeight(head.left)+ findHeight(head.right);
+
+            return Math.max(left,right,myDiam);//check
+
+        };
+
+        console.log();
+//        console.log(merge([1,4],[1,5]));
+
+
+    }
+
+
+</script>
+</body>
+</html>

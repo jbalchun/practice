@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester(){
+/*
+*
+* //JSNOTES
+* MAP DOESNT MUTATE!!!!
+*
+* GAVE UP, COME BACK LATER
+* Notes:
+* I needed to bubble back that max, so that I could be sure I didn't need to cache,
+* Thats why it's a DFS problem, because recursion allows me to easily send the max path back to the source
+* so the solution was the same, but w/ a recursive DFS caching the max at the source rather than at the end!!!
+* */
+
+        var longest = function(matrix){
+            var helper = matrix.slice(0);
+            for(var i = 0;i<helper.length;i++){
+                helper[i]=helper[i].map(function(a){return 0});
+            }
+            var globalMax = 0;
+
+            //Start walking
+            for(var r = 0;r<matrix.length;r++){
+                var row = matrix[r];
+                for(var c = 0;r<row.length;c++) {
+                    var cell = {r:r,c:c,ct:1};
+                    var queue = [cell];
+
+                    while(queue.length > 0){
+                        var curCell = queue.shift();
+                        var r2 = curCell.r;
+                        var c2 = curCell.c;
+
+
+                       /*
+                       * If I'm greater than the original,
+                       *    Set helper equal to the max of helper and my count plus 1
+                       *    push new one on to the stack
+                       * */
+                        if(matrix[r2-1]){
+                            if(matrix[r2-1][c] > row[c]){
+                                helper[r2-1][c2] = Math.max(helper[r2-1][c2],curCell.ct+1);
+                                queue.push({r:r2-1,c:c2,ct:curCell.ct+1});
+                                globalMax = Math.max(globalMax,curCell.ct+1);
+                            }
+                        }
+
+                        if(matrix[r2+1]){
+                            if(matrix[r2+1][c2] > row[c]){
+                                helper[r2+1][c2] = Math.max(helper[r2+1][c2],curCell.ct+1);
+                                queue.push({r:r2+1,c:c2,ct:curCell.ct+1});
+                                globalMax = Math.max(globalMax,curCell.ct+1);
+                            }
+                        }
+
+                        if(matrix[r2][c2+1]){
+                            if(matrix[r2][c2+1] > row[c]){
+                                helper[r2+1][c2] = Math.max(helper[r2][c2+1],curCell.ct+1);
+                                queue.push({r:r2,c:c2+1,ct:curCell.ct+1});
+                                globalMax = Math.max(globalMax,curCell.ct+1);
+                            }
+                        }
+
+                        if(matrix[r2][c2-1]){
+                            if(matrix[r2][c2-1] > row[c]){
+                                helper[r2][c2-1] = Math.max(helper[r2][c2-1],curCell.ct+1);
+                                queue.push({r:r2,c:c2-1,ct:curCell.ct+1});
+                                globalMax = Math.max(globalMax,curCell.ct+1);
+                            }
+                        }
+                    }
+                }
+            }
+
+
+
+            //BFS in walk for increasing path, with counter marking at each node
+//            for(var y = -1;y<2;y++){
+//                for(var x = -1;x<2;x++){
+//                    var r2 = r;
+//                    var c2 = c;
+//                    var checkRow = matrix[r2+y];
+//                    if(checkRow){
+//                        var checkCell = checkRow[c2+x];
+//                        if(checkCell){
+//                            if(checkCell > matrix[r2][c2]){
+//                                if(helper[r2+y][c2+y] !== 'x'){
+//
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+
+
+
+
+
+
+
+
+
+
+        }
+
+        console.log(longest([[9,9,4],
+                [6,6,8],
+                [2,1,1]]));
+    }
+
+
+</script>
+</body>
+</html>

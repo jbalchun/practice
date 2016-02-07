@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester(){
+        /**
+         * @param {number} n
+         * @param {number[][]} edges
+         * @return {number}
+         *///FAIL, Not all components needs edges! Revisit
+
+        var countComponents = function(n, edges) {
+            if(!edges){
+                return 0;
+            }
+            if(edges.length === 0){
+                return n;
+            }
+            if(edges.length === 1){
+                return 1;
+            }
+
+            var count = 1;
+            var vertEdges = buildVertEdges(edges);
+            var unvisited = buildUnivisited(edges);
+            var stack = [];
+
+            stack.push(Object.keys(vertEdges)[0]);//arbitrary node
+            delete unvisited[Object.keys(vertEdges)[0]]
+
+            while(n>0){
+                if(stack.length === 0){
+                    count++;
+                    for(var j = 0;j<Object.keys(unvisited).length;j++){
+                        stack.push(Object.keys(unvisited)[j]);
+                    }
+                    var vert = stack.pop();
+                }
+                vert = stack.pop();
+                n--;
+                var toMap = vertEdges[vert];
+
+                for(var i = 0;i<Object.keys(toMap).length;i++){
+                    var key = Object.keys(toMap)[i];
+                    if(unvisited[key]){
+                        stack.push(key);
+                        delete unvisited[key];
+                    }
+
+                }
+
+            }
+            return count;
+
+        };
+
+        var buildVertEdges = function(edges){
+            var map = {};
+            for(var i =0;i<edges.length;i++){
+                for(var j=0;j<2;j++){
+                    var to = edges[i][(j%2)];
+                    var from = edges[i][((j+1)%2)];
+                    if(!map[to]){
+                        var obj = {};
+                        obj[from] = true;
+                        map[to] = obj;
+                    }else{
+                        map[to][from] = true;
+                    }
+                }
+            }
+            return map;
+        };
+
+        var buildUnivisited = function(edges){
+            var map = {};
+            for(var i =0;i<edges.length;i++){
+                for(var j=0;j<2;j++){
+                    var to = edges[i][j];
+                    if(!map[to]){
+                        map[to] = true;
+                    }
+                }
+            }
+            return map;
+        };
+
+
+//        [123,123,456,456,456,123]
+
+//        [1,2,2,3,3,3,4,4,4,4]
+
+
+        console.log(countComponents(4 ,[[2,3],[1,2],[1,3]]));
+        //768614336404564700
+        //768614336404564651
+    }
+
+
+</script>
+</body>
+</html>

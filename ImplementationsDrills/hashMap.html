@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester(){
+        var HashMap = {
+            addressArr:[],
+            set:function(k,v){
+                var code = this.hash(k);
+                var insertObj = {key:k,val:v};
+                if(!this.addressArr[code]){
+                    this.addressArr[code] = [insertObj]
+                }
+                else{
+                    this.addressArr[code].push(insertObj);
+                }
+            },
+            get:function(k){
+                var code = this.hash(k);
+                if(!this.addressArr[code]){
+                    alert('Value'+k+' not found');
+                }else{
+                    for(var i = 0;i<this.addressArr[code].length;i++){
+                        var currentObj = this.addressArr[code][i];
+                        if(currentObj.key === k){
+                            return currentObj.val;
+                        }
+                    }
+                    alert('somethings wrong');
+                }
+            },
+            hash:function(k){
+                var arr = k.split('');
+                var code = arr.map(function(a){return a.charCodeAt(0)})
+                        .reduce(function(a,b){return ((a+b)%1049)});
+                console.log(code)
+                return code;
+            }
+        }
+
+        HashMap.set('James Balchunas',5165218084);
+        HashMap.set('asdfasdf',444);
+        HashMap.set('qwerqwer',0000);
+        HashMap.set('Christine Balchunas',5163612214);
+        console.log(HashMap.get('James Balchunas'),HashMap.get('qwerqwer'),HashMap.get('oogle'));
+
+
+    }
+
+
+</script>
+</body>
+</html>

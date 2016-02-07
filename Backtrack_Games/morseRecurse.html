@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+
+    function tester(){
+
+//
+//        Given a mapping of alphabetical characters to morse code, such as:
+//                a -->   ..-
+//                b -->   ..--
+//                c -->   .-.
+//        d -->   -..-
+//                e -->   -.-
+//                etc
+//
+//        convert a morse string into a natural string. Given that multiple morse characters can start the same way, there may be ambiguity as to what the next character is. The input morse string is a guarenteed valid string. The translated string is at most 5 characters.
+//
+//                you will be given a dictionary of valid natural words
+//
+//                ..-..--.-.
+//        abc
+//
+//                ..--..--
+//                bb
+
+        var findMorse = function(str,morse,dict){
+            var wordArray = [];
+
+
+        }
+
+        var morseRecurse = function(str,morse,dict,wordArray){
+            var runStr = '';
+            var runEng = '';
+            for(var i = 0;i<str.length;i++){
+                runStr = runStr+str[i];
+                if(morse[runStr]){
+                    var newStr = str.slice(i);
+
+                    if(i === str.length -1){
+                        if(dict[runStr]){
+                            wordArray.push(runStr);
+                            return runEng;
+                        }else{
+                            return runEng;
+                        }
+                    }
+
+                    var tail = morse[runStr] + morseRecurse(newStr,morse,dict,wordArray);
+                    runEng += tail;
+                    if(tail && dict[runStr]){
+                        wordArray.push(runStr);
+                        return runEng;
+                    }
+
+                }
+            }
+        }
+
+//        public static boolean morseRecurse(String morse,int s, StringBuilder engWord){
+//            //example: ..-..--.-.-..-
+//            //goes to-> aaec.- (wrong)
+//            //goes to-> abcd (correct)
+//            if(s==morse.length() && dictionary.containsKey(engWord))
+//                return true;
+//            StringBuilder curLetter = new StringBuilder();
+//            for(int i=s; i<5; i++){
+//                curLetter.append(morse[i]);
+//                if(morseMap.containsKey(curLetter)){
+//                    if(morseRecurse(morse,i+1, engWord.append(morseMap.get(curLetter.toString())))) //
+//                        return true;
+//                }
+//            }
+//            return false;
+//        }
+//
+//        public static ArrayList<String> morseRecurse(String morse,int s){
+//            //example: ..-..--.-.-..-
+//            //goes to-> aaec.- (wrong)
+//            //goes to-> abcd (correct)
+//
+//            ArrayList<String> ans;
+//            for(int i=s; i<5; i++){
+//                String tempChar= morseMap.convert(morse.substring(0,i));
+//                if(morseMap.containsKey(tempChar)){
+//                    ArrayList<String> alTemp = morseRecurse(morse, s);
+//                    if(alTemp.length>1)
+//                        for each T in alTemp
+//                    ans.append(tempChar+ T);
+//                }
+//            }
+//            return ans;
+//        }
+//
+//    }
+
+        console.log();
+//        console.log(merge([1,4],[1,5]));
+
+
+    }
+
+
+</script>
+</body>
+</html>

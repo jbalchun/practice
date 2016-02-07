@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px; float:right;" onclick="tester()">test</button>
+<script>
+    function tester(){
+        /*
+        *Given: Candidates ie 2,3,6,7
+        *       Target: 7
+        *       Return all sets that sum to Target
+        *       [7]
+                    [2, 2, 3]
+               Dupes are allowed
+
+
+
+         Plan:
+               feel:branching
+               recursive concat arr
+               Try every possible, and return. though I will end up duplicating work, so I need to prune things out
+               What can i prune out?
+                   Basically have a global memo of sums, and DFS? I'll be getting the same answer since I'm not reducing
+                   the candidate population. Add those back into the main Array via a recursion nested in a for loop
+
+        Gave Up:
+            -generate all combinations for a smaller and smaller set(passing index) (way to keep unique
+            -after the recusion, since I'm adding to a global array, pop()?
+            -
+
+        * */
+        var combinationSum = function(candidates, target) {
+            var globalArray = [];
+            var runArr = [];
+            candidates.sort((a,b) => a-b);
+            recurse(candidates,target,runArr,globalArray,0);
+            return globalArray;
+
+        };
+
+        var recurse = function(c,t,runArr,globalArray,idx){
+
+            if(t === 0){
+                var newRun = runArr.slice(0);
+                globalArray.push(newRun);
+                return
+            }
+
+            for(var i = idx;i< c.length;i++) {
+                var curC = c[i];
+                var newT = t - curC;
+                if (newT < 0) {
+                    return
+                }
+                runArr.push(curC);
+                recurse(c, newT, runArr, globalArray, i);
+                runArr.pop;
+            }
+        }
+
+
+        console.log(combinationSum([2,3,6,7],7));
+    }
+
+
+</script>
+</body>
+</html>

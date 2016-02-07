@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester() {
+        /*
+        * Given a list of words sorted in a dictionary, derive the universal word order.
+        *
+        * What information do I have?
+        *
+         *All firsts  are in order, use those as rules. assemble a dependency graph, so basically A>b C>b
+        *With all these relationships, is there a way to transitively derive order? Top sort?
+        * Basically remove all that have zero Greater than.
+        *
+        * At index zero, I'm good. that could be enough, but assume it's not
+        * Between words with the same zero index, I can look at index 1, and get some info as well.
+        *
+        *
+        * */
+        function build(words){
+            var map = {};
+
+            for(var i = 0; i<words.length-1;i++){
+                var word = words[i];
+                var nextWord = words[i+1];
+
+                addEdges(word,nextWord,map)
+
+
+            }
+
+        }
+
+
+        console.log();
+
+    }
+
+
+</script>
+</body>
+</html>

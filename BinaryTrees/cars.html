@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+function tester(){
+    var cars = function(h){
+        var memo = {};
+        memo[0] = 1;
+        memo[1] = 1;
+        memo[2] = 3;
+        var curh= 3;
+        while(curh <= h){
+            var product = multSum(curh,memo);
+            memo[curh] = 1+2*(product);
+            curh++;
+        }
+        return memo[h];
+    }
+
+    var multSum = function(h,memo){
+        var sum = 0;
+        for(var i = 0; i<=h-2;i++){
+            sum += memo[i];
+        }
+        return sum
+    }
+
+    console.log(cars(3));
+
+}
+
+
+</script>
+</body>
+</html>

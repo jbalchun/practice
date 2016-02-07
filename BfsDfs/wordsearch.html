@@ -1,0 +1,67 @@
+input:
+
+board =
+[
+['A','B','C','E'],
+['S','F','C','S'],
+['A','D','E','E']
+]
+word =
+"SEE"
+
+
+var wordSearch = function(grid,word){
+for(var r = 0;r
+<grid.length;r++){
+var row = grid[r];
+for(var c = 0;c
+<grid[0].length;c++){
+var char = row[c];
+if(char === word[0]){
+var shortWord = word.slice(1);
+var markGrid = grid.slice(0);
+if(dfs(r,c,grid,shortWord,grid)){
+return true;
+}
+}
+}
+}
+return false;
+}
+
+var dfs = function(r,c,grid,word,markGrid){
+
+if(word.length === 0){
+return true;
+}
+
+//up
+if(grid[r-1]){
+if(grid[r-1][c] === word[0] && markGrid[r-1][c] !== 0){
+markGrid[r-1][c] = 0;
+dfs(r-1,c,grid,word.slice(1));
+}
+}
+//down
+if(grid[r+1]){
+if(grid[r+1][c] === word[0] && markGrid[r+1][c] !== 0 ){
+markGrid[r-1][c] = 0;
+dfs(r+1,c,grid,word.slice(1));
+}
+}
+
+//left
+if(grid[r][c-1] === word[0]  && markGrid[r][c-1] !== 0 ){
+markGrid[r][c-1] = 0;
+dfs(r,c-1,grid,word.slice(1));
+}
+
+//right
+if(grid[r][c+1] === word[0]  && markGrid[r][c+1] !== 0){
+markGrid[r][c+1] = 0;
+dfs(r,c+1,grid,word.slice(1));
+}
+}
+
+
+}

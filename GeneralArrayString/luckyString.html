@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester(){
+        var wrapper = function(str){
+            var map = {}
+            var arr = recurse(str,map);
+            var minus = 0;
+            for(var i = 0;i<arr.length;i++){
+                if(unlucky(arr[i])){
+                    minus++;
+                }
+            }
+            return arr.length - minus
+
+        }
+
+        var unlucky = function(str){
+            var last = str[0];
+            for(var i = 1;i<str.length;i++){
+                if(str[i]===last){
+                    return true;
+                }
+                last = str[i];
+            }
+            return false;
+        }
+
+        var recurse = function(str,map){
+            //base
+            if(str.length ==2) {
+                var a = str[0] + str[1];
+                var b = str[1] + str[0];
+                if (a !== b) {
+                    return [a, b];
+                }
+                else {
+                    return [a]
+                }
+            }
+            //recurrence
+            var thisArr = [];
+            var recArr = recurse(str.slice(1),map);
+            for(var i = 0; i < recArr.length; i++){
+                for(var j = 0; j<=recArr[i].length;j++){
+                    var candidate = spliceSlice(recArr[i],j,0,str[0]);
+                    if(!map[candidate]){
+                        thisArr.push(candidate)
+                        map[candidate] = true;
+                    }
+                }
+            }
+            return thisArr;
+        }
+
+        function spliceSlice(str, index, count, add) {
+            return str.slice(0, index) + (add || "") + str.slice(index + count);
+        }
+
+        console.log(wrapper('abcdefghij'));
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester(){
+        var mergeSort = function(arr){
+
+            console.log('arr',arr)
+            //base case
+            if(arr.length == 2){
+                return arr.sort(function(a,b){return a-b});
+            }
+            if(arr.length == 1){
+                return arr;
+            }
+            var firstHalf = arr.slice(0,Math.floor(arr.length/2));
+            var secondHalf = arr.slice(Math.floor(arr.length/2));
+            console.log(firstHalf,secondHalf)
+
+            var sideA = mergeSort(firstHalf);
+            var sideB = mergeSort(secondHalf);
+
+            //recursion
+            var sorted = merge(sideA,sideB);
+            return sorted;
+
+
+        }
+        var merge = function(arrA,arrB){
+            var newArr = [];
+            var i = 0;
+            var j = 0;
+            var aDone = false;
+            var bDone = false;
+            while(newArr.length < (arrA.length + arrB.length)){
+                if(arrA[i] < arrB[j] || !aDone && bDone){
+                    newArr.push(arrA[i]);
+                    i++;
+                    aDone = i > arrA.length-1 ? true:false
+                }else if(arrA[i] > arrB[j] || aDone && !bDone){
+                    newArr.push(arrB[j]);
+                    j++;
+                    bDone = j > arrB.length-1 ? true:false
+                }else{
+                    newArr.push(arrA[i]);
+                    newArr.push(arrB[j]);
+                    i++;
+                    j++;
+                    aDone = i > arrA.length-1 ? true:false
+                    bDone = j > arrB.length-1 ? true:false
+                }
+            }
+            return newArr;
+        }
+        console.log(mergeSort([1,2,3,4,1,2,3,4]));
+//        console.log(merge([1,4],[1,5]));
+
+
+    }
+
+
+</script>
+</body>
+</html>

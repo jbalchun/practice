@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester(){
+        /**
+         * @param {number} n - a positive integer
+         * @return {number}
+         */
+        var hammingWeight = function(n) {
+
+            var count = 0;
+            while(n!==0){
+                var countIt = 1 & n;
+                if(countIt === 1){
+                    count++;
+                }
+                n=n >>> 1;
+            }
+            return count;
+        };
+
+        console.log(hammingWeight(  2147483648));
+        //768614336404564700
+        //768614336404564651
+    }
+
+
+</script>
+</body>
+</html>

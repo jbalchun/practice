@@ -1,0 +1,65 @@
+import java.util.ArrayList;
+public class HashMap {
+    keyVal[] addressArr = new keyVal[1050];
+
+    HashMap(){
+
+    }
+
+    public void set(String key, String val){
+        long code = hash(k);
+        KeyVal insertObj = new keyVal();
+        if(addressArr[code] == null){
+            ArrayList<KeyVal> valArr = new ArrayList<KeyVal>();
+            valArr.add(insertObj);
+            addressArr[code] = valArr;
+
+        }else{
+            addressArr[code].add(insertObj);
+        }
+    }
+
+    public String get(String key){
+        long code = this.hash(k);
+        if(addressArr[code] == null){
+            System.out.println("not found");
+        }else{
+            for(KeyVal obj : addressArr[code]){
+                if(keyVal.getKey() == key){
+                    return keyVal.getVal();
+                }
+                else{
+                    System.out.println("error");
+                }
+            }
+        }
+      
+    }
+    public int hash(String k){
+        char[] arr = k.split("");
+        long sum = 0;
+
+        for(int i = 0; i < arr.length; i++){
+            sum += (int) arr[i]; // just cast to int for ascii;
+
+        }
+        long code = sum % 1049;//or length
+        return code;
+
+    }
+}
+
+public class KeyVal{
+    String key;
+    String val;
+    
+    KeyVal(String key, String val){
+        this.key = key;
+        this.val = val;
+    }
+
+}
+
+public static void main(String[] args){
+    
+}
