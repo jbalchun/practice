@@ -63,5 +63,4 @@
 
 
 </content>
-  <tabTrigger>readme</tabTrigger>
 </snippet>
