@@ -1,5 +1,5 @@
 <snippet>
-  <content><![CDATA[
+  <content>
 # Algos
 - Arrays and strings
 - Backtracking/ State games
@@ -61,7 +61,7 @@
 
 
 
-TODO: Write license
-]]></content>
+
+</content>
   <tabTrigger>readme</tabTrigger>
 </snippet>
