@@ -49,7 +49,7 @@
 ### Functional Aspects: Currying, partial application etc
 #### Partial application and currying
  http://benalman.com/news/2012/09/partial-application-in-javascript/
-
+##### Functions invoking functions
 *More specific functions can utilize more general functions as a wrapper.
  *Manually invoke both and utilize
 ```javascript
@@ -76,6 +76,52 @@ function addTen(b) {
 addTen(2);  // 12
 addTen(3);  // 13
 ```
+##### Functions returning functions
+
+- Factory pattern can be used to make a function that does something specific
+- Pass in a variable that gets stuck (via closure?) to return function upon instantiation, then
+call the next argument
+```javascript
+function makeAdder(a){
+  return function(b){
+   return a+b;
+  }
+}
+
+var addOne = makeAdder(1);
+addOne(2);  // 3
+```
+
+##### Functions accepting functions
+- Here bindFirstarg takes a function and the returned factory function can then return that output
+```javascript
+function bindFirstArg(fn, a) {
+  return function(b) {
+    return fn(a, b);
+  };
+}
+
+function add(a, b) {
+  return a + b;
+}
+
+var addOne = bindFirstArg(add, 1);
+addOne(2);           // 3
+```
+-You can then bind this function to itself! and create an even more generic structure.
+```javascript
+// More specific function generator.
+//Returns a function(){ return bindFirstArg(add,b)}
+//    That returns a function add(a,b);
+
+var makeAdder = bindFirstArg(bindFirstArg, add);
+
+// More specific functions.
+var addOne = makeAdder(1);
+addOne(2); // 3
+```
+
+##### Partial application
 
 
 ## React, redux etc
