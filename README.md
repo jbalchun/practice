@@ -47,7 +47,9 @@
 ## JS, closures and syntax
 
 ### Functional Aspects: Currying, partial application etc
+
 #### Partial application and currying
+http://bonsaiden.github.io/JavaScript-Garden/#function.closures
  http://benalman.com/news/2012/09/partial-application-in-javascript/
 ##### Functions invoking functions
 - More specific functions can utilize more general functions as a wrapper.
@@ -175,9 +177,50 @@ addTen(4, 9, 16, 25);             // 64
 ```
 ##### Partial application from the right
 - You can take the arguments in any order and mess with how the function returns
+- Left is more robust.
+
+##### Partial application from anywhere
+
+##### Currying
+-Transform a function of n arguments into a chain of N functions w/ one argument
+
+```javascript
+function curry(fn,n){
+
+  //use the function's length is n is left out
+  if(typeof n !== 'number'){
+    n = fn.length;
+  }
+
+  function getCurriedFn(prev){
+    return function(arg){
+      var args = prev.concat(arg);
+
+      if(args.length < n){
+
+      return getCurriedFn(args);
+      } else {
+        return fn.apply(this,args);
+      }
+
+    };
+
+  };
+
+  return getCurriedFn([]);
+}
+
+```
+```javascript
+var i = 0;
+function a(arg1,arg2,arg3){
+  return ++i + ': ' + arg1 + ', ' + arg2 + ', ' + arg3;
+}
+
+var b = curry(a);
 
 
-
+```
 
 ### IIFE's
 http://benalman.com/news/2010/11/immediately-invoked-function-expression/
