@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester() {
+
+        function add(add2){
+            return function(n){
+                return add2+n;
+            }
+        }
+
+        //map(add(1), [1,2,3])
+        function map(fn,arr){
+            for(var j = 0;j<arr.length;j++){
+                arr[j] = fn(arr[j]);
+            }
+            return arr;
+        }
+        var adder = add(1);
+
+        console.log(adder(5));
+        console.log(map(add(1),[1,2,3]));
+
+    }
+
+
+</script>
+</body>
+</html>

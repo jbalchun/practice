@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester() {
+
+        function solve(curCase,caps){
+            var cash = curCase[0];
+            var beer = curCase[1];
+            var bonusAmt = curCase[2];
+            var drank = 0;
+
+            var bonusLast = caps ? Math.floor(caps/bonusAmt) : 0;
+            var capsFromBonus = bonusLast ? bonusLast + caps % bonusAmt : 0;
+            if(cash < beer){
+                if(capsFromBonus === 0){
+                    return bonusLast;
+                }
+                return bonusLast+solve(curCase,capsFromBonus);
+            }
+
+            var drankBottles = Math.floor(cash/beer);
+            var moneyLeft = cash % beer;
+
+            var bonus = Math.floor(drankBottles/bonusAmt);
+
+            var leftOverCaps = (drankBottles % bonusAmt) + bonus;
+
+            drank +=  drankBottles + bonusLast + bonus + solve([moneyLeft,beer,bonusAmt],leftOverCaps);
+
+            return drank;
+
+        }
+        console.log(solve([6,2,2]));
+
+    }
+//    process.stdin.on("end", function () {
+//// now we can read/parse input
+//
+//        var cases = input.split("\n").slice(1);
+//        var answer = '';
+//        for(var i = 0;i<cases.length;i++){
+//            cases[i] = cases[i].split(" ");
+//            cases[i] = cases[i].map(a => parseInt(a));
+//        }
+//
+//        for(var j = 0;j<cases.length;j++){
+//
+//            console.log(solve(cases[j]));
+//
+//        }
+//
+//
+//        function solve(curCase,caps){
+//            var cash = curCase[0];
+//            var beer = curCase[1];
+//            var bonusAmt = curCase[2];
+//            var drank = 0;
+//            var bonusLast = caps ? Math.floor(caps/bonusAmt) : 0;
+//
+//            if(cash < beer){
+//                return bonusLast;
+//            }
+//
+//            var drankBottles = Math.floor(cash/beer);
+//            var moneyLeft = cash % beer;
+//
+//            var bonus = Math.floor(drankBottles/bonusAmt);
+//
+//            var leftOverCaps = (drankBottles % bonusAmt) + bonus;
+//
+//            drank +=  drankBottles + bonusLast + bonus + solve([moneyLeft,beer,bonusAmt],leftOverCaps);
+//
+//            return drank;
+//
+//        }
+//    });
+
+</script>
+</body>
+</html>

@@ -45,7 +45,7 @@
 ## Css
 
 ## JS, closures and syntax
-
+https://www.reddit.com/r/webdev/comments/3f7q3q/been_interviewing_with_a_lot_of_tech_startups_as/
 ### Functional Aspects: Currying, partial application etc
 
 #### Partial application and currying
@@ -271,10 +271,48 @@ http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 
 
 
+# Systems Design
 
+## Blueprint (Hired in Tech, url shortener as an example)
 
+### Step 1: Constraints and use cases
 
+- First thing you do is identify the use cases the system needs to satisfy
+- Don't make assumptions when you can ask
+- Url example, maybe we only serve 1000 users (urls) but these url's will get millions of hits
+- Do we need to apply statistics?
 
+#### From example video, Use cases :
+http://www.hiredintech.com/system-design/the-system-design-process/
+
+-Want to brainstorm a bunch, then agree what's in scope and what's out of scope.
+1) Shortening: take a url, return a shorter one.
+2) Redirection: take a short url redirect to original url
+3) Custom urls
+4) High availability
+
+Out of scope:
+4) Analytics
+5) Automatic link expiration
+6) Manual link removal
+7) UI vs API
+
+#### Constraints:
+1) How many requests per month? Scale down to second
+2) How many urls per month? Scale down to second
+
+- You may be asked to estimate (new tweets per day = 500 mil, etc, look up MAU's) .5->1bn
+- Twitter users generate half a billion tweets per day, 15b tweets per month
+- All shortened url's 1.5 b per month
+- 80/20 rule, top 3-5 have 80 percent, rest all have 20 percent
+- Somehow we are shortening 100M url's per month
+
+****
+
+- How many requests are we handling monthly, off that 100M?
+- 20% of URL's generate 80% of traffic
+- Get to 1B requests per month;
+- 10% from shortening, 90% from redirection
 
 
 

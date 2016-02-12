@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester() {
+        //q1 for a given number output all of the possible moves for that number
+
+        var genStates = function(num){
+            var states = [];
+            var bigRoot = Math.floor(Math.sqrt(num));
+
+            for(var i = bigRoot;i>0;i--){
+                states.push(num-(bigRoot*bigRoot));
+            }
+            return states;
+        }
+
+//q2 given a number generate the next winning board state (after best move) or -1 if there is no such state
+
+        var sqGame = function(num){
+
+            var win = []
+
+            win[0] = 0;
+            win[1] = 0;
+
+            for(var j = 2;j<=num;j++){
+                var states = genStates[j];
+                var winner = -1;
+                for(var k = 0;k<states.length;k++){
+                    if(win[states[k]] >= 0){
+                        winner = k;
+                        break;
+                    }
+                }
+                win[j] = winner;
+            }
+
+            return win[nums];
+
+
+        }
+
+        console.log();
+
+    }
+
+
+</script>
+</body>
+</html>
