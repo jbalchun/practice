@@ -282,7 +282,8 @@ http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 - Url example, maybe we only serve 1000 users (urls) but these url's will get millions of hits
 - Do we need to apply statistics?
 
-#### From example video, Use cases :
+#### From example video,
+#### Use cases :
 http://www.hiredintech.com/system-design/the-system-design-process/
 
 -Want to brainstorm a bunch, then agree what's in scope and what's out of scope.
@@ -298,22 +299,85 @@ Out of scope:
 7) UI vs API
 
 #### Constraints:
-1) How many requests per month? Scale down to second
-2) How many urls per month? Scale down to second
+- Note this is very in depth, maybe go half this deep, or twice as fast
+
+1. How many requests per month? Scale down to second
+2. How many urls per month? Scale down to second
 
 - You may be asked to estimate (new tweets per day = 500 mil, etc, look up MAU's) .5->1bn
 - Twitter users generate half a billion tweets per day, 15b tweets per month
-- All shortened url's 1.5 b per month
+- All shortened urls 1.5 b per month
 - 80/20 rule, top 3-5 have 80 percent, rest all have 20 percent
-- Somehow we are shortening 100M url's per month
+- Somehow we are shortening 100M urls per month
 
 ****
 
 - How many requests are we handling monthly, off that 100M?
 - 20% of URL's generate 80% of traffic
-- Get to 1B requests per month;
+- Get to 1B requests per month
 - 10% from shortening, 90% from redirection
+- ~400 requests per second. 40 shortens and 360 redirects
+***
+- **Data estimate ~5 years** 5 years x 12 months x 100M = 6bn urls in 5 years
+- Bytes per url? 500. **1 byte ~ 1 char**
+- Hash size for 6 billion urls? log base 62 (6bn) = only about 6 chars, 6 bytes
+- 3TB for all urls, 36gb for hashes, over 5 years
+- **Writes per second** 40 writes per second(shortens) * (500+6) = 20kb
+- Data reads per second = 360 * 506  = 180k per second
 
+****
+
+#### Abstract Design:
+1. Application service layer (serves requests)
+..* shortening service, check if it's already hashed, make if not and return
+..* redirection service,
+2. Data storage layer (keeps track of hash to url mappings)
+..* acts like a big hash table, stores new mappings and retrieves a value given a key
+
+hashed_url = convert_to_base62(md5(original_url+random_salt)).slice(0,6);
+
+#### Understanding bottlenecks:
+Consider:
+1. Load balancing
+2. Distributed DB
+3. Caching
+
+***
+
+Two Challenges:
+
+
+1. Traffic
+..* Our calls here are simple, basically just wrappers to access. Commodity hardware is ok
+2. Amount of data
+..* We do have a lot of data and we need to serve these url's quickly. Think harder about data!
+
+-Bottlenecks:
+-Traffic should be fine, data will be more interesting.
+
+- **Always making tradeoffs**
+
+#### Scalability:
+- https://youtu.be/-W9F__D3oY4
+
+Consider:
+- Vertical Scaling
+- Horizontal Scaling
+- Caching
+- Load balancing
+- Database replication
+- Database partitioning
+- Sharding: http://highscalability.com/blog/2009/8/6/an-unorthodox-approach-to-database-design-the-coming-of-the.html
+- Scalability for dummies: http://www.lecloud.net/tagged/scalability
+- Actual architectures: http://www.hiredintech.com/system-design/sample-architectures/
+
+***
+- Everything is a tradeoff
+- Constraints Time, budget, knowledge, complexity, tech.
+***
+
+Back to url example:
+-to be continued
 
 
 
