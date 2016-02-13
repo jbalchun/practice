@@ -347,7 +347,7 @@ Consider:
 Two Challenges:
 
 
-1. Traffic
+1.Traffic
 ..* Our calls here are simple, basically just wrappers to access. Commodity hardware is ok
 2. Amount of data
 ..* We do have a lot of data and we need to serve these url's quickly. Think harder about data!
@@ -378,6 +378,52 @@ Consider:
 
 Back to url example:
 -to be continued
+
+## Harvard Lecture
+-http://www.hiredintech.com/system-design/scalability-fundamentals/
+
+* FTP vs SFTP? old, doesn't matter
+
+* Things to consider when selecting hosting
+ * VPS vs shared web host
+ * VPS: your own copy of the server software (via a hyperviser)
+ * VPS is a selected slice, shared hosting means resources are just sloppily shared
+ * Box owner could always access your data if they want
+* AWS EC2 can autoscale and build more vm's as traffic increases
+
+* Vertical scaling:
+ * Disk, RAM, CPU cycles
+ * Throw money at the problem, more stuff on one machine
+ * There is a ceiling to how many CPU's etc on one machine
+ * 4 things at once on a quad core (duh)
+  * Threads within that
+ * SATA, SAS(serial attached scuzi 15k rpm), (parallel ATA is older) hard drive types
+ * SSD's are generally way smaller and more expensive but performant
+
+* Horizontal Scaling
+ * Commodity hardware, a bunch of them
+ * Inbound http request, but multiple web servers, which?
+ * Interpose a black box, the load balancer.
+  * Return IP of load balancer (public IP)
+   * Servers have private IP's, the rest of the world doesn't need to see them, easier to find
+  * Web servers can all be identical (uses a lot of disk space)
+   * Could also be dedicated, this is images, this is videos, this is html. Load balancer decides
+  * Load balancing via round robin, sequential wrapping, 1,2,3,1 etc
+   * Basically a DNS server, no communication (ie no asking how busy are you?)
+   * Drawbacks: get a power user on one server, they all accumulate on one server for some reason
+   * OS/browsers cache DNS lookups, so that power user keeps returning
+   * DNS server can give a "Time to live" for the cache value, but that might be days
+    * If our back end is PHP:
+     * Load balancing breaks session super globals
+     * Sessions are stored on the server, so your cookie doesn't work
+     * If we diversified our servers we fine, but that doesn't provide redundancy, only works to a point
+     * Need to keep sending Alice back to server 1 for her session. this is a problem
+     * Have a file server storing session for sharing state? Sessions on the load balancer?
+      * This is a weakness on our topology, everything depends on this one, no redundancy
+     * Could use RAID: Redundant array of independent disks. RAID0 -> RAID10 etc
+      * Assume multiple hard drives
+      * 2 HD's of identical size
+
 
 
 
