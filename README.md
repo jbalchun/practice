@@ -380,9 +380,7 @@ Back to url example:
 -to be continued
 
 ## Harvard Lecture
--http://www.hiredintech.com/system-design/scalability-fundamentals/
-
-* FTP vs SFTP? old, doesn't matter
+-https://www.youtube.com/watch?v=-W9F__D3oY4
 
 * Things to consider when selecting hosting
  * VPS vs shared web host
@@ -413,16 +411,83 @@ Back to url example:
    * Drawbacks: get a power user on one server, they all accumulate on one server for some reason
    * OS/browsers cache DNS lookups, so that power user keeps returning
    * DNS server can give a "Time to live" for the cache value, but that might be days
-    * If our back end is PHP:
-     * Load balancing breaks session super globals
-     * Sessions are stored on the server, so your cookie doesn't work
-     * If we diversified our servers we fine, but that doesn't provide redundancy, only works to a point
-     * Need to keep sending Alice back to server 1 for her session. this is a problem
-     * Have a file server storing session for sharing state? Sessions on the load balancer?
-      * This is a weakness on our topology, everything depends on this one, no redundancy
-     * Could use RAID: Redundant array of independent disks. RAID0 -> RAID10 etc
-      * Assume multiple hard drives
-      * 2 HD's of identical size
+   * Sessions: If our back end is PHP:
+    * Load balancing breaks session super globals
+    * Sessions are stored on the server, so your cookie doesn't work
+    * If we diversified our servers we fine, but that doesn't provide redundancy, only works to a point* Need to keep sending Alice back to server 1 for her session. this is a problem
+    * Have a file server storing session for sharing state? Sessions on the load balancer?
+     * This is a weakness on our topology, everything depends on this one, no redundancy
+    * Could use RAID: Redundant array of independent disks. RAID0 -> RAID10 etc
+     * Assume multiple hard drives
+     * RAID 0 2 HD's of identical size, write here, write there, etc, called striping
+     * RAID 1 mirrors across 2 HD's, if one dies, you are good.
+      * RAID 10 is 4 drives, RAID 5 and 6 are 3 or 4 drives, one is for redundancy, less overhead
+     * Multiple power supplies, RAM, etc, hot swap everything.
+   * Use HAProxy, ELB, Hard: Barracuda, Citrix, make load balancers: Harvard's is $20k, 100k is easy for a pair
+   * Storing all info in cookies is doable, but sketchy
+    * You can store which server they were sent to? Weird, exposes our structure
+    * Could just have some id that the load balancer knows corresponds to a specific server
+    * Protect them from spoofing cookies to generate targeted traffic
+  * PHP is interpreted, so gets a bad wrap as slower
+   * PHP accelerators, cache op-codes with some open source software like XCache
+   * Like .py vs .pyc for python
+  * Caching
+   * Craigslist as an html sheet, generate a page dynamically. They are storing html
+    * Apache is great at just spitting out bits from disk, static content
+    * Tons of redundancy being stored, same parts of template, header footer etc.
+    * Impossible to change the aesthetics of the page
+   * MYSQL querycache
+    * add query_cache_type = 1. Query answers are stored
+    * MYSQL is a server on a ram.
+   * Memcached is software on a server that let's you store anything in RAM
+    * Let's all different languages hook in
+    * Disk is slow, fast to serve up. Store in a table w/ indexes
+    * KeyVal store, vs DB is much faster even if it's a mem database
+    * If user is null in cache, you can hit the DB
+    * Eventually cache is so big you can't keep it on the machine
+    * GC? LRU. Memcached does this automatically
+   * Inno DB? MY ISAM? Does a DB support transactions?
+    * Transaction, one logical unit of work that either passes entirely or fails
+    * Archive tables are compressed, so slow access but smaller, no selects
+   * DB's typically offer replication
+    * Master, with slaves (1 or more)
+     * Slaves get a copy every time a master is changed
+     * If Master dies, there are 3 identical backups, promote
+     * Facebook: more read heavy than write heavy
+      * Selects go to 2,3 or 4, writes go to Master 1
+      * Can add more and more read servers, slaves are redundancy or read balancing
+      * Still one point of failure to writes, if Master goes down, time to promote
+       * Can have a Master-Master, they write back and forth to each other, or mirror
+      * Potential Architecture
+       * Network of clients
+        * Load balancer (point of failure, can do active-active among a pair, heartbeats)
+        * Web servers
+         * All direct to Master(s) for writes (point of failure)
+         * All to another load balancer for reads (point of failure)
+          * Slaves for reading
+      * Partitioning:
+       * FB: Different server for each school
+       * What about an A-M cluster and N-Z cluster
+        * 2 load balancers, send them to a different set of slaves
+      * Don't want devs to have to know anything about topology
+   * Multiple datacenters
+    * AWS has availability zones
+     * West coast, asia, europe etc
+    * DNS based load balancing
+     * Send to different load balancers via DNS
+    * If you have way too many users it is really hard to set up
+   * Security:
+    * From outside world, in: TCP: 80 in, and 443 for SSL, allow another port for SSH
+    * Offload SSL to LB, keep traffic in datacenter unencrypted, just http, don't need certs on all boxes
+    * Expensive load balancers handle all that
+    * Web servers to DB's TCP 3306 (MYSql)
+    * Need firewalls as well
+    * Least-privilege
+
+
+
+
+
 
 
 
