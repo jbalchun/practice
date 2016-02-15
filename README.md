@@ -377,7 +377,42 @@ Consider:
 ***
 
 Back to url example:
--to be continued
+
+* Stateless traffic, not that difficult
+* One machine should be able to do 1 request per second, otherwise load balancer + other machine
+
+* Application Service Layer
+ * Start w/ one machine, add a load balancer + cluster over time
+  * Traffic may be "spiky", load balancer let's us auto-add machines when we need them (EC2)
+  * Redundant, more availability, which we had highlighted as a requirement
+* Data store layer ( tougher problem to solve)
+ * Billions of fairly small objects
+ * No relationships between the objects
+ * Reads are likely 9x more frequent than writes (360 vs 40)
+ * 3 TB's of urls, 36 GB of hashes
+ * NoSQL or relational? (either case is valid)
+  * MySQL
+   * Mature, widely used,
+   * Sharding, master/slave, master/master, used by massive websites
+   * Index lookups are very fast (as fast as NoSQL)
+   * define tables:
+    * Mappings: hash: varchar(6) original_url: varchar(512)
+    * 3TB is ok for MYSQl, but lookups might be slow
+     * Create a unique index on the hash (36GB+)
+     * Keep index in memory
+      * Option 1: Vertically scale the MySQL machine
+      * 64 GB machine is about 500 a month
+      * Option 2: Otherwise, partition the data, 5 partitions, 600GB of data, 8GB of indexes (shards)
+       * What do you partition on? First char of hash  % no. of partitions
+     * Master-slave (reading from slave, writes to master)
+
+   ***
+* Working strategy
+ * Use one MySQL table w/ two varchar fields
+ * Create a unique index on the hash in memory to speed lookups
+ * Vertically scale MySQL machine for a while, eventually partition the data
+  * Partition by taking first char of hash mod the num of partitions
+ * Think about a master slave setup
 
 ## Harvard Lecture
 -https://www.youtube.com/watch?v=-W9F__D3oY4
