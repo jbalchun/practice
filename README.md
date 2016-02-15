@@ -414,6 +414,23 @@ Back to url example:
   * Partition by taking first char of hash mod the num of partitions
  * Think about a master slave setup
 
+
+***
+
+* Wrap up, the interviewer could expand in any direction
+* Try to know the basic trade offs of all of these technologies
+ * NoSQL vs Relational
+ * Sharding/partitioning
+ * Indexing
+* Steps:
+ * Use Cases, priorities
+ * Constraints
+ * Abstract Design
+ * Bottlenecks
+ * Concrete Design
+ * Scalability
+
+
 ## Harvard Lecture
 -https://www.youtube.com/watch?v=-W9F__D3oY4
 
