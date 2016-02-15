@@ -23,6 +23,94 @@
 
 ## Dynamic Programming (emphasis on bottom up/tabulation)
 
+### 6.006 Lectures
+
+* Best way to do something, optimization
+* Exhaustive search, typically polynomial time
+* Careful brute force
+* Subproblems + reuse the answers
+* What are the subproblems?
+
+***
+#### Lecture 1
+* Example 1: fibonacci, compute the nth num
+ * Naive fib is exponential time
+  * T(n) = T(n-1) + T(n-2) + O(1), at least 2T(n-2), ie 2^(n/2)
+ * Memoized DP
+  * fib(k) only recurses the first time it's called
+  * Only need to call n times
+  * There's a way to do lg(n) for fib fyi
+ * Bottom up DP
+  * Falls out of top down
+  * Equivalent to a top sort of a simple DAG
+
+* Example 2: Shortest Paths
+ * Guessing: Try all, reduce to best
+  * Single source shortest path from S to V
+  * Must start one node away from S, or end one node away from V
+   * shortest is delta from s-> u + w(u,v)
+   * Minimize over all edges of shortest from s to v
+   * Naively infinite over cyclic, V+E over DAGs
+
+#### Lecture 2
+
+* DP always reduces to a dag
+* 5 Easy steps to DP!
+ * Define subproblems
+ * Guess (part of solution)
+  * num subproblems, num choices for guess
+ * Relate subproblem solutions
+  * Make sure subproblems are acyclic
+ * Recurse and Memoize, or Bottom up DP table
+ * Solve the original problem
+
+ ***
+
+*Text justification,
+ * Prompt:
+  * Given some text, split it into "good lines"
+  * Greedy is not optimal ie, as many words as you can fit
+  * Text is a list of words, there's a quantity: badness(i-j)
+  * badness tells you how bad it is to use words i->j as a line
+   * If they don't fit, badness = Infinity
+   * Otherwise = (page width - total width)^3
+ * Brute Force: try all possible line breaks, 2^n
+  * Guess where the second line starts?
+ * Subproblems: Suffixes [i:]
+  * Subprobs: n
+ * Guess: Where to start 2nd line
+  * At most n-i choices
+ * Relation: Recurrence: DP[i] =
+  * Min(
+   * for j in range(i+1,n+1)
+   * Dp(j) + badness(i-j)
+  * For every line, min of DP
+ * Topo order n -> n-1, DP(n) = 0
+  * Total time: O(n^2)
+ * Original Problem:
+  * Solved in quadratic time
+ * Hard part, what to guess and what are the subproblems
+* Blackjack
+ * Perfect information blackjack
+ * I know the whole deck, should i hit or stand?
+ * Guess: how many times should i hit
+  * num of choices is n at most
+ * Subproblem, suffix Ci:, max winnings given these cards onward.
+ * Recurrence:
+  * BJ(i) =  max(
+   * outcome {-1,0,1}
+   * + BJ(j) for( numHits in range(i,n)), if it's a valid play
+ * Longest path in a DAG, win the most, longest edges
+ * Cubic in the worst case.
+
+#### Lecture 3
+
+
+
+
+
+
+
 ## Graphs, connectivity, topsort, BFS and DFS.
 
 ## Implementation drills. Classic sorts and implementations for reference
@@ -372,8 +460,10 @@ Consider:
 - Actual architectures: http://www.hiredintech.com/system-design/sample-architectures/
 
 ***
+
 - Everything is a tradeoff
 - Constraints Time, budget, knowledge, complexity, tech.
+
 ***
 
 Back to url example:
