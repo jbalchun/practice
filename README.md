@@ -105,10 +105,57 @@
 
 #### Lecture 3
 
+* Subproblems for strings or sequences
+ * Used suffixes x[i:] n
+ * Prefixes x[:i] n
+ * All substrings x[i:j], n squared
 
+* Parenthesization : Matrix multiplication
+ * Optimal evaluation of associative expression
+ * Col x Row x Col
+  * (Col x Row) x Col = O(n^2)
+  * Col x (Row x Col) = O(n)
+ * Guess: last multiplication
+  * If I know optimal up until that, I'm good
+  * Recurse on each subproblem
+ * Optimal parenthesization of Ai..Aj-1
+ * Num choices for k O(j-i+1) approx O(n)
+ * Recurrence:
+  * DP(i,j) = min(
+   * DP(i,k)+DP(k,j) + cost
+   * for k in range(i+1-j)
+   * time is approx O(n^3)
 
+* Edit Distance:
+ * Given two strings, x and y
+ * What's the cheapest sequence of character edits to convert x into y
+ * Someone can weig[ht the char edits, ie typo likeliness
+ * LCS is an edit distance, insert delete = cost 1,
+  * Replace is infinity if c doesn't equal c prime
+ * Subproblem: x[i:] and y[j:] for all i and j
+  * subproblems = n^2
+ * Guess:
+  * Start at first chars
+  * Do one of 3 choices
+ * Recurrence: DP(i to j)=min(
+  * 1: Cost of replace + DP(i+1,j+1)
+  * 2: cost of insert y[i] + DP (i, j+1)
+  * 3 : cost of delete x[i] + DP(i+1,j)
 
-
+* Knapsack
+* https://www.youtube.com/watch?v=8LusJS5-AGo
+ * Subproblems
+  * Suffixes (arbitrary)
+  * Subproblems have a remaining capacity
+  * Num subproblems = O(n*s)
+ * Guess: is item i in subset or not?
+  * 2 choices
+ * Recurrence:
+  * Dp(i,x) = max(
+   * DP(i+1,X)
+   * DP(i+1,X-Si)+Vi))
+ * Psuedopolynomial
+  * Polynomial in the numbers in input
 
 
 ## Graphs, connectivity, topsort, BFS and DFS.
@@ -131,6 +178,35 @@
 ## Html/Dom
 
 ## Css
+
+## JS Debounce
+https://davidwalsh.name/javascript-debounce-function
+* Debounce solves the issue of firing off too many events to the server on repeated calls
+* Examples include autocorrect, suggestions etc.
+
+```javascript
+//debounce from underscore
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
+//This will only fire once every quarter second
+var myEfficientFn = debounce(function() {
+	// All the taxing stuff you do
+}, 250);
+
+```
 
 ## JS, closures and syntax
 https://www.reddit.com/r/webdev/comments/3f7q3q/been_interviewing_with_a_lot_of_tech_startups_as/
