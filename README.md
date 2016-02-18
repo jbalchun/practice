@@ -11,6 +11,12 @@
 - Implementation drills. Classic sorts and implementations for reference
 - Recursive collections, permutations, combinations, exponential problems.
 
+## Tricks/Techniques
+
+### Mods
+* Modulo of a negative number works like a positive number
+ * -100 Mod 8 = 4 because 8 * -13 = 104
+
 ## Arrays and strings
 
 ## Backtracking/ State games
@@ -702,8 +708,35 @@ Back to url example:
     * Need firewalls as well
     * Least-privilege
 
+## Code as Craft, how to search for "Geeky"
 
+* Too many options, daunting
+* Need to help surfers w/ broad queries https://codeascraft.com/2015/07/29/targeting-broad-queries-in-search/
+* Developed a heuristic using basic statistics at runtime
+* Simple method is performant, easy to debug, works on multiple languages
+* Start by taking the percentage of items w/ the search term from each broad category (jewelery,  accessories)
+ * Apply Shannon entropy
+ * Entropy is a way of measuring broadness
+  * If the results set is low entropy, dive into subcategory and repeat
+  * Entropy values are normalized based off the number of items in the category
+* Trade off between big data signals power vs architectural costs
 
+## Technical retrospectives
+
+* NGO company
+* Result Failed
+
+* Initial Reaction:
+ * Thought I had done well, immediately recognized the method needed to solve the problem
+ * Expressed concern over my design because it was repetitive
+ * Was able to reasonably refactor the design into something that worked, but not super confidently
+* Likely reasons why I failed:
+ * Didn't answer the clarifying question very well ( what happens if I enter the same color)
+  * Really think about edge cases before acting done
+ * Spoke about refactoring concerns but didn't do it without being walked through
+  * If you know something's ugly and there's time left then fix it!
+ * Keep an eye out for functional if you are going to talk about it
+  * Iterate through an array and change each item
 
 
 
