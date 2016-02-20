@@ -437,6 +437,91 @@ http://benalman.com/news/2010/11/immediately-invoked-function-expression/
 
 ## React, redux etc
 
+### Thinking in React
+https://facebook.github.io/react/docs/thinking-in-react.html
+
+* Starting w/ a mock, and some JSON data from an API call
+```
+[
+  {category: "Sporting Goods", price: "$49.99", stocked: true, name: "Football"},
+  {category: "Sporting Goods", price: "$9.99", stocked: true, name: "Baseball"}
+];
+```
+
+* 1, Break the UI into a component hierarchy
+ * Logically seperate out UI components, let the mock drive this
+ * (might be photoshop layers)
+ * Single responsibility principle, component should do one thing
+ * If your model is good, it'll translate well
+ * Components are nested FilterableProductTable has Searchbar, ProductRow beneath it etc
+ * Example structure:
+ ```
+ FilterableProductTable
+  SearchBar
+  ProductTable
+    ProductCategoryRow
+    ProductRow
+ ```
+* 2, Implement the components statically in React
+ * Sample component below:
+ ```javascript
+ var SearchBar = React.createClass({
+   render: function() {
+     return (
+       <form>
+         <input type="text" placeholder="Search..." />
+         <p>
+           <input type="checkbox" />
+           {' '}
+           Only show products in stock
+         </p>
+       </form>
+     );
+   }
+ });
+ ```
+ * Now time to implement. Build a version that renders the UI from the model w/o interactivity
+ * Static version: A lot of typing, no thinking
+ * Interactive version: A lot of thinking, no typing
+ * To build the static version:
+  * Render the data via props
+   * props pass data from parent to child
+  * Build components top down or bottom up. Big projects = bottom up
+  * Once done you'll have a library of components that only have a render method
+  * Component at the top of the hierarchy takes your data model as a prop, passes props down
+  * Simply change the data and call render again, changes propogate down
+  * 2 types of model data in React, props and state
+
+* 3, Identify the minimal representation of UI State
+ * UI is made interactive by triggering changes to the data model via **state**
+ * DRY, minimal set of mutable state
+  * Ex, don't store the length of a list as a seperate variable, just calc it
+  * 3 q's
+   * Is it passed via props? not state
+   * Does it change over time? If not, then it's not state
+   * Can you compute it based on other state/props? not state
+  * Final state for this simple filter list
+   * Search text the user entered
+   * Value of checkbox
+    * NOT the filtered list, can be derived from search text and model
+
+* 4, where should your state live?
+ * Once we know the minimal state, we need to decide which component owns/mutates it
+ * One way data flow down the hiearchy
+ * For each piece of state:
+  * Identify every component that renders something based on the state
+  * Find a common owner component (A single component above all that use the state)
+  * Either the common owner, or an even higher component should own that
+  * If you can't find one, create a new component where it would be to hold the state.
+   * In this example, the table and the search bar depend on the search text
+   * Therefore one level up, FilterableProductTable (root) owns it
+* 5, add the inverse data flow
+ * FYI ReactLink makes this easier
+ * When a user changes the form, state is updated.
+ * FitlerableProductTable passes a callback to SearchBar that fires when the state is updated
+ * Use onChange to be notified of it
+
+
 ## Rest/Ajax
 
 
