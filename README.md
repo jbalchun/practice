@@ -516,6 +516,7 @@ http://blog.modulus.io/absolute-beginners-guide-to-nodejs
  ```
 * It's sloppy to have everything in one file, which is why we have modules
  * You can include local files just like modules, via path instead of a name
+* Follow up: Rest service, http://www.qat.com/simple-rest-service-node-js-express/
 
 ## React, redux etc
 
