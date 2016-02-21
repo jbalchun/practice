@@ -216,6 +216,61 @@ var myEfficientFn = debounce(function() {
 
 ## JS, closures and syntax
 https://www.reddit.com/r/webdev/comments/3f7q3q/been_interviewing_with_a_lot_of_tech_startups_as/
+
+### Bind, apply and call
+* **Bind**
+ * Creates a new function that has it's 'this' bound as the first param
+
+```javascript
+ var Button = function(content) {
+   this.content = content;
+ };
+ Button.prototype.click = function() {
+   console.log(this.content + ' clicked');
+ }
+
+ var myButton = new Button('OK');
+ myButton.click();
+
+ var looseClick = myButton.click;
+ looseClick(); // not bound, 'this' is not myButton - it is the global object
+
+ var boundClick = myButton.click.bind(myButton);
+ boundClick(); // bound, 'this' is myButton
+```
+ * Can also preset some params like below (or all params)
+```javascript
+var sum = function(a, b) {
+  return a + b;
+};
+
+var add5 = sum.bind(null, 5);
+console.log(add5(10));
+```
+
+
+### Functions (general)
+http://www.permadi.com/tutorial/jsFunc/index.html
+* Named functions vs variable instantiation
+* Named is defined at parse time, var at run time.
+```javascript
+<script>
+  // Error
+  functionOne();
+
+  var functionOne = function() {
+  };
+</script>
+
+<script>
+  // No error
+  functionTwo();
+
+  function functionTwo() {
+  }
+</script>
+```
+
 ### Functional Aspects: Currying, partial application etc
 
 #### Partial application and currying
@@ -524,6 +579,21 @@ https://facebook.github.io/react/docs/thinking-in-react.html
 
 ## Rest/Ajax
 
+## Harvard lecture 6
+
+## Harvard lecture 7 AJAX
+* XMLHttpRequest is an object
+ * Has a callback function
+ * Server can respond w/ XML or JSON (XML is bloated)
+ * open() connection, then send()
+ * readyState,(4isdone) tells you what state the request is in (sending, receiving, done)
+ * responseText is what the server sent back
+ * status, 200 is ok, 404 doesn't exist, 401,403 etc.
+ * 4 and 200 are good!
+* Same origin policy, can't just hit other web servers directly
+ * Workarounds: CORE, you can use our data
+ * Yahoo query language, YQL
+
 
 
 # Systems Design
@@ -687,8 +757,34 @@ Back to url example:
  * Concrete Design
  * Scalability
 
+### Harvard SQL https://www.youtube.com/watch?v=Xq5lvvBvA1U
+* MySQL is a database server, install on server, service on a port
+* SQLite use SQL w/o a DB, just a binary, .db, mocks a db
+* Varchar uses variable space, char is locked in to definition
+ * Chars are slightly faster
+ * Text is for big docs etc
 
-## Harvard Lecture
+### Harvard PHP https://www.youtube.com/watch?v=h2Nq0qv0K8M
+* PHP structured app, you hit the web server (Apache usually)
+ * Web server goes to file system and gets an html/php page
+ * PHP server has a plugin that reads the php code in the html file and does something with it
+* PHP lecture ES75
+* PHP is interpreted rather than compiled
+ * Interpreted is fast development, slow execution
+ * PHP can cache upcodes to speed up interpretation
+ * Thousands of hit per second are when you hit the breaking point
+* PHP is extremely accessible
+* Create PHP blocks inside the html, dropping in and out of php mode
+* When you do a $GET PHP puts them in the url
+* Get VS Post
+ * Post: Posted params are not in URL, data sent after header
+ * Conceals arguments, some data shouldn't get logged in URL all the time
+ * URLS might be too long etc.
+* Forms submit to a PHP file which then handles it on the server
+* XPath for traversing xml
+
+
+#### Harvard Lecture
 -https://www.youtube.com/watch?v=-W9F__D3oY4
 
 * Things to consider when selecting hosting
@@ -792,6 +888,25 @@ Back to url example:
     * Web servers to DB's TCP 3306 (MYSql)
     * Need firewalls as well
     * Least-privilege
+
+
+# Java stuff
+
+## Tomcat/threads/JDBC
+
+### Connection pools
+* Opening a db connection is expensive, we want to do it as seldom as possible
+* A connection pool automatically keeps a bunch of connections open and hands you the best(?)
+
+
+### My issue
+* Bad:
+ * Each trade was opening it's own database connection in a thread
+ * The database connections were overflowing. The connections were being closed but the threads weren't
+* Fix:
+ * Daemon thread that just loops through all trades w/ one connection and checks, constantly.
+  * Daemon doesn't prevent JVM from exiting
+  * low priority etc
 
 ## Code as Craft, how to search for "Geeky"
 
