@@ -488,7 +488,34 @@ http://benalman.com/news/2010/11/immediately-invoked-function-expression/
   counter.i; // undefined (`i` is not a property of the returned object)
   i; // ReferenceError: i is not defined (it only exists inside the closure)
 ```
+## Node stuff
+http://blog.modulus.io/absolute-beginners-guide-to-nodejs
+* Node is not a webserver
+* Not like apache, not really an HTTP server
+* All it is is a javascript runtime, a way to run js on your computer
+* Can run "node" and get a js shell
+```
+>console.log('hello')
+//prints 'hello' and undefined, all return values are also logged
+```
+* Otherwise provide it javascript
+```
+ node hello.js
+```
+* Created a simple web server that just serves "hello world"
+* If you want actual web server functionality you need to build it!
+ * Can use express or koa for this
+ * After `npm install express` this is enough to serve html
+ ```javascript
+ var express =require('express'),
+ 	app = express();
 
+ app.use(express.static(__dirname + '/public'));
+
+ app.listen(8080);
+ ```
+* It's sloppy to have everything in one file, which is why we have modules
+ * You can include local files just like modules, via path instead of a name
 
 ## React, redux etc
 
@@ -890,13 +917,16 @@ Back to url example:
     * Least-privilege
 
 
-# Java stuff
+## Java stuff
 
 ## Tomcat/threads/JDBC
 
 ### Connection pools
 * Opening a db connection is expensive, we want to do it as seldom as possible
 * A connection pool automatically keeps a bunch of connections open and hands you the best(?)
+
+### Unix stuff
+* Mac vi guide: http://commandlinemac.blogspot.com/2008/12/vim.html
 
 
 ### My issue
