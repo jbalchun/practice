@@ -12,7 +12,7 @@
 - Recursive collections, permutations, combinations, exponential problems.
 
 ## Tricks/Techniques
-
+- Check this https://www.youtube.com/watch?v=GSBLe8cKu0s
 ### Mods
 * Modulo of a negative number works like a positive number
  * -100 Mod 8 = 4 because 8 * -13 = 104
