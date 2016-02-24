@@ -917,6 +917,77 @@ Back to url example:
     * Need firewalls as well
     * Least-privilege
 
+### Indexing
+http://stackoverflow.com/questions/1108/how-does-database-indexing-work
+http://use-the-index-luke.com/sql/anatomy/the-tree
+* Data is stored in blocks on disk. These blocks are accessed in their entirety
+* Structured like a linked list, a section for data and a pointer to the next node
+* If a field is non unique, requires N size search
+* On the other hand, a sorted field has logN access
+
+* **What is indexing**
+* Indexing is a way of sorting a number of records on multiple fields
+* Example table, 4 fields amounting to 204 bytes per row, 1024/204 = 5 rows per block
+```
+Field name       Data type      Size on disk
+id (Primary key) Unsigned INT   4 bytes
+firstName        Char(50)       50 bytes
+lastName         Char(50)       50 bytes
+emailAddress     Char(100)      100 bytes
+```
+ * Searching on the id field (sorted) drops access from 500k (N/2) to 20
+ * Firstname is not sorted or a key, need full table scan of 1M rows
+ * Therefore we might want to create an index on this, which is basically a sorted table in mem w/ keys and pointers
+ ```
+Field name       Data type      Size on disk
+firstName        Char(50)       50 bytes
+(record pointer) Special        4 bytes
+```
+  * With this index, block access cuts down from 300k to 20
+  * However, we need 300k blocks in memory now
+  * Index is a waste of space if there are a lot of dupes
+  * Also two indices on a table means a single write is 3 write operations
+  * In practice indices are B Trees
+
+
+### Principles of fast search
+
+* Sharding- by splitting the database into a lot of small pieces, it is not necessary for a server to hold the entire database and search it. Instead, queries are directed to an appropriate shard by the frontend servers.
+* Replication- by having the data available on thousands of servers, less waiting time is required to retrieve data. Moreover, queries can be searched in parallel and the quickest responses returned to the user.
+* Caching- There are a lot of searches that are very common (e.g. "E3 2014"). Instead of looking up the results every time, the results are fetched once and cached for some period of time.
+* Hardware- Retrieving data from a hard disk is slow. Google has enough servers now that they can keep the database shards in RAM instead of reading from disk.
+
+### Scalability for Dummies
+
+*
+
+### Normalization, NoSQL and consitency
+http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/
+* This answer talks about some tradeoffs in denorm: http://meta.stackexchange.com/questions/120016/how-is-nosql-and-data-denormalization-used-on-stack-overflow-stack-exchange
+ * key: can I avoid this query? (cache etc)
+ * can I improve this query? (denorm,good sql, good tools etc)
+* Commonly a SQL database can be denormed, then triggers are implemented to maintain consitency
+* How Mongo works
+ ![](http://www.sarahmei.com/blog/wp-content/uploads/2013/11/Screen-Shot-2013-11-09-at-7.09.27-PM.png)
+ ```
+  tv shows have many
+	seasons have many
+		episodes have many
+			reviews
+			cast members
+ ```
+* This would be a 5 table join in SQL, with a table for each object, foreign keys etc
+* Mongo would model it as a set of hashes, hashMap of shows, with a hashmap of seasons, hashmap of episodes etc.
+ * Some metadata at top level, then the list of the next object
+* Document storage works for the above example, but it falls apart when you are repeating entities
+ * A social graph for example. A user has a list of friends, but those friends are also users
+ * You could represent this in Mongo, but data would be duplicated/denormalized
+ * If we make a change to a user, we need to update it everywhere
+ * Alternatively we could just reference keys, but then we lose the efficiency and simplicity of the document
+ * Good sign the data is relational
+* With Mongo, you will eventually become inconsistent, it's basically a massive cache and writes will fail
+* Even with "ideal" tv case, say you want to click on an actor and look back at all of their movies
+ * Still stuck w/ dupes
 
 ## Java stuff
 
