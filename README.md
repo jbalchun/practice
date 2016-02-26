@@ -1040,7 +1040,7 @@ http://coding-geek.com/how-databases-work/
  * **Data Versioning**
  * Every transaction can modify data at the same time, they each get a version of the data
  * If there's a conflict of versions, one transaction is rolled back, possibly re run
- 
+
 
 ### Indexing
 http://stackoverflow.com/questions/1108/how-does-database-indexing-work
@@ -1137,6 +1137,7 @@ http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/
 
 ## Code as Craft, how to search for "Geeky"
 
+* BROAD QUERIES
 * Too many options, daunting
 * Need to help surfers w/ broad queries https://codeascraft.com/2015/07/29/targeting-broad-queries-in-search/
 * Developed a heuristic using basic statistics at runtime
@@ -1147,6 +1148,29 @@ http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/
   * If the results set is low entropy, dive into subcategory and repeat
   * Entropy values are normalized based off the number of items in the category
 * Trade off between big data signals power vs architectural costs
+
+## Code as Craft as a whole
+
+* A lot of writing on process, engineering efficiency, training and learning
+ * Dojo process article
+  * Onboarding
+  * In house networking
+  * Knowledge transfer
+  * Practice Communicating
+  * Training
+  * Fun/Enjoyment
+* Also a lot of interesting technical analysis https://codeascraft.com/2015/07/29/targeting-broad-queries-in-search/
+ * Entropy/search
+ * Calculate entropy, or broadness of results, if we don't satisfy min
+  * Drill down into biggest and recalculate
+
+## Why Etsy as a product?
+
+* Enabling creators, global connections
+* Interesting problemset, scale, distributed
+* High visibility, tangible payoff
+* Independence, tremendous power to individuals
+
 
 ## Technical retrospectives
 
@@ -1166,7 +1190,9 @@ http://www.sarahmei.com/blog/2013/11/11/why-you-should-never-use-mongodb/
   * Iterate through an array and change each item
 
 
+## Reading list
 
+* http://searchengineland.com/how-google-instant-autocomplete-suggestions-work-62592
 
 
 
