@@ -917,6 +917,131 @@ Back to url example:
     * Need firewalls as well
     * Least-privilege
 
+
+### Relational DB's
+
+#### How Databases work
+http://coding-geek.com/how-databases-work/
+
+* Time complexity is important, O(n^2) is slow etc
+* Merge sort is used by databases a lot
+ * Merge sort can be done in place
+ * Can run distributed on hadoop
+* Can build tree indices for things if you can establish order among keys
+* Range query, uses a B+ Tree
+ * Only the lowest nodes store information
+ * Upper nodes route, ie <80, <398, <40, etc.
+ * Twice as many nodes as a normal binary tree
+ * Lowest nodes are linked to their successsors
+  * Query for 40 -> 100
+  * Search for 40, then follow links to successors until 100, search costs M + log(N) where M is the number of successors
+ * Needs to be self ordered and self balanced
+  * Log(n) insertion and deletion
+   * "Too many indexes is bad" because you slow down fast insertion/update/deletion
+* Hash tables
+ * A key
+ * A hash function, to give location of bucket
+ * A function to compare keys within the bucket
+ *Want to spread out hashes
+ * Advantages of a hash table over an array
+  * Hash tables can be half loaded into memory (just keys) w/ bucket read from disk
+  * Arrays use contiguous mem space (tough if large)
+  * Custom keys
+* Core database components
+ * Process manager
+  * pool of processes/threads
+ * Network manager
+ * File system manager (Disk I/0)
+ * Memory manager. DB's have a ton of RAM to avoid disk i/o, this manages all of that
+ * Security manager
+ * Client Manager
+* Database tools
+ * Backup Manager
+ * Recovery Manager
+ * Monitor manager (monitor a db)
+ * Administration Manager (storing table metadata, names etc)
+* Query Manager
+ * parser (checks validity)
+ * rewriter (preoptimize)
+ * optimizer (optimizes the query)
+ * executor (compile and execute query)
+* Data Manager
+ * Transaction mngr
+ * Cahce mngr
+ * Data access mngr
+
+* Aside on optimization based on Sqlite (there's a lot more detail than these notes, just some points here)
+* https://www.sqlite.org/optoverview.html
+ * Where clause analysis
+  * Where is broken up and we check if there's any index we can use
+  * Indices are useful for =, <,>, etc
+  * Order matters in and statements
+ * Joins
+  * Some joins (inner joins) can be freely reordered, Left outer cannot be
+  * Useless joins are removed
+  * Joins are basically nested for loops with where clauses, so the order does matter, depends on the data.
+   * Often can run ANALYZE for the db to test which join order is faster
+ * Subqueries
+  * Subqueries are very inefficient so the optimizer will work to flatten them into the original query
+
+* Statistics
+  * blocks of memory are 4 or 8 kb, so 1 kb will still take up 8 likely
+  * Stats for each col, distinct vals, length of data, range of data
+   * Example: 1000 dist first names, 1M dist last names
+   * Hence, join on last name first, because it's more likely to be unique, will have to do less work
+   * The heavy filtering is done on the more unique column
+* Optimization
+ * Cost based optimization
+ * Temp indexes (dynamic)
+ * Table scans are more expensive that an index scan
+ * Cost of A JOIN B is not the same as B JOIN A
+ * Ways to join
+  * Nested loop join,
+   * for each in outer table, look at all rows in inner and see if there's a match
+  * Hash Join O(N+M)
+   * Put all elements from inner into a hash table in mem
+   * Get elemnts of outer one by one, hash each elemnt to find the bucket of the inner relation
+  * Merge join
+  * Selecting one of these depends on memory, size of datasets, indexes, if the result is sorted, threads etc
+ * A 3 way join has to decide between all these methods at each join, and order.
+  * DP, Greedy, Genetic etc can all be used to optimize this
+* Data Manager
+ * transactions
+* Cache Manager
+ * Mem is 100 - 100k times faster than disk
+ * Prefetching, can read query, know which data you need and load that onto RAM, then use it sequentially from buffer to execute
+ * Buffer pool of memory that is filled on an LRU basis
+ * buffer /cache hit ratio is calculated.
+ * LRU-K is a type of LRU
+ * Write buffers also exist
+* ACID
+ * Atomicity: All or nothing transactions, even if it lasts 10 hours it can be rolled back
+ * Isolation: If 2 transactions run at the same time, it shouldn't matter who finishes first, same result
+ * Durability: once a transaction is committed, the data stays in the db no matter what
+ * Consistency: Only valid data is written to the db
+ * **Notes:**
+ * Pure Isolation is too expensive, there are 4 levels of isolation instead
+ * Serializable: (highest level of isolation) each transaction has its own world **SqLite**
+ * Repeatable read: If one transaction adds new data and finishes first, the others will see it. Only see new data, old data stays the same **MySQL**
+ * Read committed: See updates/inserts/deletes that are committed after repeated reads (non repeatable read) **Oracle, Postgres**
+ * Read uncommitted: See intermediate, non-committed states, dirty read
+* **Concurrency Control**
+ * Writes on the same data cause issues
+ * Running transactions one by one is too slow
+ * **Solved by**:
+ * Monitor all ops on all transactions
+ * Check if 2 or more trans are in conflict (same data)
+ * Reorder to reduce size of conflicts
+ * Execute conflicting parts in a certain order while non conflicting run in parallel
+ * **Locks**
+ * Exclusive: if I need data anyone else that wants it can wait
+ * Shared: if I need to read, I share lock, if I need to write, I wait for shared locks to end and exclusive lock
+ * Deadlock detection: checking for cycles in a graph. Can timeout or precheck w/ two phase locking
+ * **Data Versioning**
+ * Every transaction can modify data at the same time, they each get a version of the data
+ * If there's a conflict of versions, one transaction is rolled back, possibly re run
+ 
+
 ### Indexing
 http://stackoverflow.com/questions/1108/how-does-database-indexing-work
 http://use-the-index-luke.com/sql/anatomy/the-tree
