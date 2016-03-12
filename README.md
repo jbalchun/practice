@@ -85,13 +85,14 @@
 * Top Sort
  * Dependencies, course order, minimum height trees(sort of)
  * 2 maps, indegree {key,count in} and outgoing {key, [dest keys]}
- 
+
 ## Implementation drills. Classic sorts and implementations for reference
 ## Linked List
 * Can usually be done recursively or iteratively
 * Recursion is typically easier
 * Cycle finding: Fast and slow pointer. If they are ever equal, cycle
 * To find the point of the cycle, send a third slow pointer when they collide
+
 ## Recursive collections, permutations, combinations, exponential problems.
 * **Permutations**
  * Given abc, recurse down to perms of c, then insert b at each location
