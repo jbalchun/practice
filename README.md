@@ -24,6 +24,15 @@
 * ID: Need to generate all permutations subject to some constraint
  * Examples: N Queens, sudoku solvers etc
  * For simple games, can be solved recursively w/ my win = your loss
+* Minimax, like the coin line game
+ * You have some set of choices
+ * Your value is equal to the max of... your choices + the mins of their subsequent states
+ * in this example, where you pick from the ends of a row of coins..
+ ```javascript
+    F(i,j) = Math.max(Vi + Math.min(F(i+2,j),F(i+1,j+1),
+                      Vj + Math.min(F(i+1,j-1),F(i,j-2))
+ ```
+ * You can speed this up a lot by memoizing the whole state, in this case just i and j. 
 
 
 ## BFS/DFS, problems solved w/ stack/queue + while loops, also memoization
