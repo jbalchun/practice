@@ -85,6 +85,7 @@
 * Top Sort
  * Dependencies, course order, minimum height trees(sort of)
  * 2 maps, indegree {key,count in} and outgoing {key, [dest keys]}
+ 
 ## Implementation drills. Classic sorts and implementations for reference
 ## Linked List
 * Can usually be done recursively or iteratively
