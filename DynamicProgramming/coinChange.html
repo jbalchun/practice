@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester() {
+        /**
+         * @param {number[]} coins
+         * @param {number} amount
+         * @return {number}
+         */
+        var coinChange = function(coins, amount) {
+            coins.sort(function(a,b){return b-a});
+            if(amount === 0){
+                return 0;
+            }
+            var memo = {};
+            return dfs(coins,amount,memo)
+
+        };
+
+        var dfs = function(coins,amount,memo){
+            //base cases BEFORE recursive loop
+            if(memo[amount]){
+                return memo[amount];
+            }
+            if(amount < 0){
+                return 0;
+            }
+            memo[amount] = Infinity;
+            for(var i = 0;i<coins.length;i++){
+                var coin = coins[i];
+                var newAmount = amount-coin;
+                if(newAmount === 0){
+                    memo[amount] = 1;
+                }
+                var recur = dfs(coins,newAmount,memo);
+                if(recur > 0){
+                    memo[amount] = Math.min(1+recur,memo[amount]);
+                }
+            }
+            return memo[amount];
+        }
+        console.log(coinChange([1, 2, 5],11));
+
+    }
+
+
+</script>
+</body>
+</html>

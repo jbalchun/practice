@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester() {
+        /**
+         * Definition for a binary tree node.
+         * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+         */
+        /**
+         * @param {TreeNode} root
+         * @return {number}
+         */
+        var largestBSTSubtree = function(root){
+            var globalMax = {max:0};
+            recur(root,globalMax);
+            return globalMax.max;
+        }
+
+        var recur = function(root,max) {
+            if (!root) {
+                return {count:0};
+            }
+
+            var left = recur(root.left,max);
+            var right = recur(root.right,max);
+
+            //if neither are explicitly wrong
+            if (left === false || right === false) {
+                return false;
+            }
+            if (isValid(root, left,right)) {
+                max.max = Math.max(1+left.count+right.count,max.max);
+                var leftMax = left.max || Number.NEGATIVE_INFINITY;
+                var rightMax = right.max || Number.NEGATIVE_INFINITY;
+                var leftMin = left.min || Infinity;
+                var rightMin = right.min || Infinity
+                return {max:Math.max(root.val,leftMax,rightMax),min:Math.min(leftMin,rightMin,root.val),count:1+left.count+right.count};
+            }
+            return false;
+        }
+
+        var isValid = function(root,left,right){
+            // console.log(root.val,left.max);
+            if(right.count !== 0){
+                if(root.val > right.min){
+                    return false;
+                }
+
+            }
+            if(left.count !== 0){
+                if(root.val < left.max){
+                    // console.log('false');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+    }
+
+
+</script>
+</body>
+</html>

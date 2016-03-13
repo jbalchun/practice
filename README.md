@@ -32,7 +32,7 @@
     F(i,j) = Math.max(Vi + Math.min(F(i+2,j),F(i+1,j+1),
                       Vj + Math.min(F(i+1,j-1),F(i,j-2))
  ```
- * You can speed this up a lot by memoizing the whole state, in this case just i and j. 
+ * You can speed this up a lot by memoizing the whole state, in this case just i and j.
 
 
 ## BFS/DFS, problems solved w/ stack/queue + while loops, also memoization
@@ -46,6 +46,7 @@
  * **DFS**
   * Can be done recursively or with a stack
   * Stack method is better if you want to return back to the source (longest increasing path) etc
+  * Cycle detection, if you bump into anything in the recursion stack, you've found a cycle
 
 ## Binary Trees, traversals etc.
  * Usually follow the following pattern:
@@ -1291,6 +1292,41 @@
   * Keep an eye out for functional if you are going to talk about it
    * Iterate through an array and change each item
 
+# Scary Problems
+
+## Permutations/Combinations
+* Next permutation
+* Perms w/o dupes
+* Factor combinations
+
+## DP
+* LIS
+* Edit distance
+* Knapsack
+* Coin change
+* Buy and sell stock w/ cooldown
+
+##Linked List
+*
+
+## Graph theory
+* Min spanning tree
+* Union find
+
+## Binary tree
+* Postorder iterative
+
+## Backtrack/games
+* N Queens
+
+## Math
+* Most math is scary
+
+
+
+
+
+
 # Misc problem explanations
 
 ## Longest palindromic substring
@@ -1334,6 +1370,53 @@
   * Push all the arrivals from the map onto the stack
   * Pop the departing off of the stack and onto the final route
   * Then reverse the route!
+
+## Valid paren eval
+* Divide and conquer problem
+* At each operator, split the input into left and right, and recurse
+* Eventually you get down to a single number
+* At that point, take the left and rights, and evaulate them according to the original operator
+* Not immediately obvious that this will work out cleanly, also not memoized
+
+## Coin change
+* Classic DP problem, much like the knapsack
+* Top down recursive is the easiest way to set this up
+* Basically, iterate through the coins on each level, set the memo = min answer you get back + 1
+* Base cases, Amount < 0, return 0 or some null val. Amount == 0 return 1. In memo return memo.
+
+## Largest BST Subtree
+* The BST condition isn't local, ie not just comparing roots, lefts and rights
+* Need to effectively draw vertical lines, by taking mins and maxs from subtrees and comparing roots to those
+* Clarify if there are dupes or negatives in the tree
+
+## Rabin Karp Algorithm
+* Used to find if a substring `t` exists in a larger string `s`
+* Relies on hashing, basically brute force assisted by hashing
+* May get some collisions so you need to verify after a match
+* Use ascii values, t.charCodeAt() etc.
+ * One simple way to do an  order dependent hash
+ * ascii + (some prime)^position in string
+ * However, this wouldn't be O(n)
+  * Need to do a sliding hash window, but the hashing needs to be done in O(1)
+  * Subtract first ascii character from hash, x = oldhash-val(oldchar)
+  * Divide all numbers by the prime multiplier, x = x/prime
+  * Add new hash at end, x + prime^m-1*val(newChar)
+
+## Match an anagram of substring in a larger string
+* **2 Options**
+ * 1: prime hash
+  * Map each alphabet letter to a prime number >=3
+  * Find the hash of the substring by multiplying all of these primes
+  * Compute the rolling hash by multiplying by the first #'s multiplicative inverse, and multiplying by the new number
+  * Can't just divide by first number if the strings are large because you are being cut off by int32 etc
+  * Tough because it's hard to compute a multiplicative inverse
+  * Can also do a simpler hash, straight add ascii codes. Worst case O(s*t).
+ * 2: Histogram Method
+  * Create 2 histograms, basically maps {alphabet char, freq}
+  * Roll through each window, if histogram amounts match, then you've found a match
+   * **NOTE** this validation is O(alphabet size) which is basically O(1), doesn't grow w/ input
+  * As you roll along, decrement first char from histogram, increment new char
+
 
  ## Reading list
 

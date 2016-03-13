@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester() {
+        /**
+         * @param {string} input
+         * @return {number[]}
+         */
+        var diffWaysToCompute = function(input) {
+            var opsMap = {'*':true,'-':true,'+':true};
+            var retArray = [];
+            for(var i = 0;i<input.length;i++){
+                var char = input[i];
+                if(opsMap[char]){
+                    var left = diffWaysToCompute(input.slice(0,i));
+                    var right =diffWaysToCompute(input.slice(i+1));
+                    for(var a in left){
+                        var x = left[a];
+                        for(var b in right){
+                            var y = right[b];
+                            if(char === '*'){
+                                retArray.push(x*y);
+                            }
+                            if(char === '-'){
+                                retArray.push(x-y);
+                            }
+                            if(char === '+'){
+                                retArray.push(x+y);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(retArray.length === 0){
+                retArray.push(parseInt(input));
+            }
+            return retArray;
+        };
+
+
+        console.log(diffWaysToCompute('2-1-1'));
+
+    }
+
+
+</script>
+</body>
+</html>
