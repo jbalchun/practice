@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<button style="height:100px;width:100px" onclick="tester()">test</button>
+<script>
+    function tester() {
+
+        function buildMap() {
+            var str = "abcdefghijklmnopqrstuvwxyz"
+            var map = {};
+            for(var i =0;i<str.length;i++){
+                map[str[i]] = 0;
+            }
+            return map;
+        }
+
+        var longestSubstring = function(str,k){
+
+            var map = buildMap();
+            var count = 1;
+            var max = 0;
+            var i = 0;
+            var j =0;
+            map[str[0]] = 1;
+
+            while(j < str.length){
+                if(count <= k){
+                    if(count === k){
+                        max = Math.max((j-i)+1,max);
+                    }
+                    j++;
+                    map[str[j]]++;
+                    if(map[str[j]] === 1){
+                        count++;
+                    }
+                }
+
+                if(count > k){
+                    map[str[i]]--;
+                    if(map[str[i]] === 0){
+                        count--;
+                    }
+                    i++;
+                }
+            }
+            return max;
+        }
+
+
+        console.log(longestSubstring("abccdeeffghi",4));
+
+    }
+
+
+</script>
+</body>
+</html>

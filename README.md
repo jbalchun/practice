@@ -111,12 +111,24 @@
  * Combinations are really nested for loops. You want to start the inner loop at the index of the outer loop
  * No repeated sequences. the way to avoid dupes is skipping over consecutive items
 
+## Gotchas (common mistakes/js quirks)
+* Splicing an array inside of a for loop
+ * Solution: i++ or i-- etc
+* Negative modulo
+ * -5 % 3 = -2
+*
 
  ## Tricks/Techniques
  - Check this https://www.youtube.com/watch?v=GSBLe8cKu0s
  ### Mods
- * Modulo of a negative number works like a positive number
-  * -100 Mod 8 = 4 because 8 * -13 = 104
+
+
+ ### Grid problems
+ * If there's only 1 region, you can project onto axes
+ * If you are looking for surrounded regions, chop off regions by BFS from edge
+ * Iterate through all choices
+ * Iterate through all choices cleanly by making an array of r and c vals like
+  * `var arr = [[r-1,c],[r+1,c]...]`
 
  ## Arrays and strings
 
@@ -1422,7 +1434,69 @@
 
  * http://searchengineland.com/how-google-instant-autocomplete-suggestions-work-62592
 
+### Nikola's advice
+* Interview will be focused on algorithms and optimization
+* Talk through all of your solutions
+* Brute force first, don't get ahead of yourself
+ * Then explain what's wrong w/ it
+* Don't get intimidated, have a short memory
+* Show them that you are some one they'd want to work with
+* They will be thinking, are we working together or am I dragging you?
+* Don't overprepare (lol)
+* I'm awesome
 
+### Teddy's advice
+* Total crapshoot
+* Slow down and breathe when you get the question
+* The question is deeper than it seems and you can't give up when you think you have it
+* Keep pushing, there's usually some secret trap door answer
+ * Even if they seem satisfied w/ your answer
+* Don't eat too much at lunch
+
+### Gotchas
+
+* Splicing inside of a loop
+* Slice is start,end. Splice is start, dist
+* Methods that mutate vs return
+ * **Return new, don't mutate:**
+  * slice
+  * concat
+  * Map, filter, reduce (purity/immutability)
+ * **Mutate:**
+  * splice
+  * sort
+* 0 is false
+
+
+### Questions for interviewers
+* Where else have you worked? What do you like about Google in comparison?
+* What are some qualities of a high performing google engineer?
+* 1 thing about google that you like the most
+* What doors do you think google is opening for you
+* What's the best
+
+### Small talk
+* How long have you worked here?
+* Straight from school etc?
+* Hobbies, maybe
+* Where do you live?
+
+
+### Teams in the NYC office
+* Adwords/Adsense
+* Web search infra
+* Search Quality
+* Internal applications
+* Commerce
+* Docs & Spreadsheets
+* Maps/Geo
+* Front end
+* Test/Productivity
+
+
+
+### JS Style
+* http://stackoverflow.com/questions/8698726/constructor-function-vs-factory-functions
 
  </content>
  </snippet>
